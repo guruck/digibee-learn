@@ -1,0 +1,149 @@
+{
+  "meta": {
+    "15d7912e-f0d5-4b49-948c-2d7e502bf0fd": {
+      "position": {
+        "x": 173,
+        "y": 41
+      }
+    },
+    "9b7c88f1-599f-45a1-8f6a-e78414b15071": {
+      "position": {
+        "x": 437,
+        "y": 41
+      }
+    },
+    "f956de4b-1638-4323-bb5c-53934b72aade": {
+      "position": {
+        "x": 305,
+        "y": 41
+      }
+    }
+  },
+  "flowSpec": {
+    "disconnected-root:3e7e4267-2151-431b-a6c6-08ec6e76a2c1": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log Start Pipeline",
+        "params": {
+          "logLevel": "INFO",
+          "message": "processing message {{ message.$ }}"
+        },
+        "id": "15d7912e-f0d5-4b49-948c-2d7e502bf0fd",
+        "__documentation__": "Inicio do processamento"
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "Mock Entrada",
+        "params": {
+          "json": "{\n  \"queryParams\": {\n    \"cep\": {{ DEFAULT( message.queryParams.cep, \"01310000\" ) }}\n  }\n}",
+          "failOnError": false
+        },
+        "id": "f956de4b-1638-4323-bb5c-53934b72aade",
+        "__documentation__": "entrada espera via parametro o cep na requisicao get bem como apikey no header"
+      },
+      {
+        "type": "connector",
+        "name": "block-execution-connector",
+        "stepName": "Block-Execution",
+        "params": {
+          "onProcess": "9b7c88f1-599f-45a1-8f6a-e78414b15071-onProcessTrack",
+          "onException": "9b7c88f1-599f-45a1-8f6a-e78414b15071-onExceptionTrack"
+        },
+        "id": "9b7c88f1-599f-45a1-8f6a-e78414b15071"
+      }
+    ],
+    "9b7c88f1-599f-45a1-8f6a-e78414b15071-onProcessTrack": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log Block Execution Start",
+        "params": {
+          "logLevel": "INFO",
+          "message": "processing message {{ message.$ }}"
+        },
+        "id": "f2acf892-9f02-4362-b00f-a0d40cfdfadf",
+        "__documentation__": "Processamento do Block Execution"
+      },
+      {
+        "type": "connector",
+        "name": "rest-connector-v2",
+        "stepName": "REST V2 (HTTP / APIs)",
+        "params": {
+          "url": "{{ REPLACE(\"{{global.cep-url}}\", \"00000000\", message.queryParams.cep ) }}",
+          "headers": "{\"Content-Type\":\"application/json\"}",
+          "queryParams": "",
+          "operation": "GET",
+          "sendBinaryFile": false,
+          "fileName": "",
+          "useDynamicAccount": false,
+          "scoped": false,
+          "accountName": "",
+          "connectTimeout": 30000,
+          "readTimeout": 30000,
+          "stopOnClientError": false,
+          "stopOnServerError": false,
+          "overrideResponseCharset": true,
+          "responseCharset": "UTF-8",
+          "advanced": false,
+          "rawMode": false,
+          "rawModeAsBase64": false,
+          "saveAsLocalFile": false,
+          "isInsecure": false,
+          "retry": false,
+          "maxRetry": 0,
+          "compressBody": false,
+          "forceHttp1": false,
+          "disableConnectionPool": false,
+          "invalidateSSLSessionsOnEveryCall": false
+        },
+        "id": "d0b13728-149e-4872-8720-16c7d7efc345",
+        "accountLabel": "",
+        "accountLabels": {
+          "custom-1": "",
+          "custom-2": ""
+        },
+        "__documentation__": ""
+      },
+      {
+        "type": "connector",
+        "name": "assert-connector-v2",
+        "stepName": "Assert V2",
+        "params": {
+          "condition": "{{ AND(NOT( EQUALTO( message.body.erro, true )), EQUALTO(message.status, 200)) }}",
+          "errorMessage": "Nao foi possivel obter o cep",
+          "internalErrorMessage": "Internal Error ",
+          "errorCode": "400",
+          "failOnError": true
+        },
+        "id": "f8d20d6b-9585-4e1e-af8c-0bdd482a53f9",
+        "__documentation__": ""
+      }
+    ],
+    "9b7c88f1-599f-45a1-8f6a-e78414b15071-onExceptionTrack": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log ERROR Default",
+        "params": {
+          "logLevel": "ERROR",
+          "message": "Error processing message {{ message.$ }}"
+        },
+        "id": "bc965c9d-58b6-4f34-8ed1-dbf46ca7b6de",
+        "__documentation__": "Log para erro"
+      },
+      {
+        "type": "connector",
+        "name": "throw-error-connector",
+        "stepName": "Throw Error",
+        "params": {
+          "customErrorEnabled": true,
+          "customError": "{\n  \"timestamp\": {{ NOW() }},\n  \"error\": \"Error occurred. Bad Request\",\n  \"execution_key\": {{ metadata.execution.key }},\n  \"code\": 400\n}"
+        },
+        "id": "895a0f57-9a6f-40c0-a46c-f0e4b15771cc",
+        "__documentation__": ""
+      }
+    ]
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "18d5a02b-55e1-4f1c-bd72-f1767ebc1d43": {
+      "position": {
+        "x": 305,
+        "y": 41
+      }
+    },
+    "cefc837f-1940-47e6-b644-f5409c57dd61": {
+      "position": {
+        "x": 173,
+        "y": 41
+      }
+    },
+    "c663d67a-3ae1-4b72-b764-0c3af1d7c2b3": {
+      "position": {
+        "x": 569,
+        "y": 41
+      }
+    },
+    "609c9ade-b262-4c4b-afb3-c6dfee415287": {
+      "position": {
+        "x": 437,
+        "y": 41
+      }
+    }
+  },
+  "flowSpec": {
+    "disconnected-root:16cc885b-be9a-49a7-89f5-afc0de660469": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log Start Pipeline",
+        "params": {
+          "logLevel": "INFO",
+          "message": "Processing  Starts {{ METADATA.execution.key }}"
+        },
+        "id": "cefc837f-1940-47e6-b644-f5409c57dd61",
+        "__documentation__": ""
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "Mock Entrada",
+        "params": {
+          "json": "{\r\n  \"name\": \"jonas surita\",\r\n  \"car\": [\r\n    {\r\n      \"model\": \"ferrari\",\r\n      \"year\": 2015\r\n    },\r\n    {\r\n      \"model\": \"tesla\",\r\n      \"year\": 2021\r\n    }\r\n  ],\r\n  \"update_date\": {{ metadata.execution.startTimestamp }}, \r\n  \"execution_id\": {{ metadata.execution.key }},\r\n  \"realm\": {{ metadata.pipeline.realm }},\r\n  \"pipeline_name\": {{ metadata.pipeline.name }}\r\n}",
+          "failOnError": false
+        },
+        "id": "18d5a02b-55e1-4f1c-bd72-f1767ebc1d43",
+        "__documentation__": "Prove os dados iniciais para funcionamento da pipeline"
+      },
+      {
+        "type": "connector",
+        "name": "json-transformer-connector",
+        "stepName": "JSON Transformer",
+        "params": {
+          "actions": "[{\"desc\":\"Rename Action\",\"type\":\"rename\",\"props\":[{\"root\":true,\"path\":\"\",\"keyValueRenameProperty\":\"{\\\"name\\\":\\\"fullname\\\"}\",\"keyRemove\":\"\",\"keyValueToRemovePropWithCondition\":\"\"}]},{\"desc\":\"Edit Action\",\"type\":\"edit\",\"props\":[{\"root\":true,\"path\":\"\",\"keyValueStringEdit\":\"{\\\"fullname\\\":\\\"{{ UPPERCASE( item.fullname ) }}\\\",\\\"car\\\":\\\"{{ message.car[0] }}\\\",\\\"update_date\\\":\\\"{{ FORMATDATE( message.update_date, \\\\\\\"timestamp\\\\\\\", \\\\\\\"dd/MM/yyyy\\\\\\\" ) }}\\\"}\",\"keyRemove\":\"\",\"keyValueToRemovePropWithCondition\":\"\"}]}]",
+          "failOnError": false
+        },
+        "id": "609c9ade-b262-4c4b-afb3-c6dfee415287",
+        "__documentation__": "Transforma toda entrada no que esta dentro dos campos acima + o que nao esta descrito (execution_id, realm e pipeline_name), nao eh permitido adicao de campo nao existente"
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "JSON transformation",
+        "params": {
+          "json": "{\r\n  \"fullname\": {{ UPPERCASE( message.fullname ) }},\r\n  \"car\": {{ message.car }},\r\n  \"update_date\": {{ message.update_date }},\r\n  \"company\": \"Digibee\"\r\n}",
+          "failOnError": false
+        },
+        "id": "c663d67a-3ae1-4b72-b764-0c3af1d7c2b3",
+        "__documentation__": "Transforma toda entrada em apenas o que está dentro do campo acima, para trasnformar payloads grandes sem mexer em todas as propriedades \"mantendo\" todos os dados, utilizar o JSON Transformer. Caso precise adicionar propriedade, usar o MOCK"
+      }
+    ]
+  }
+}

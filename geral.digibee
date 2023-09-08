@@ -1,0 +1,16 @@
+course starts 004 learn components beast pratices
+
+743106244
+SELECT * FROM clientes WHERE codigo - {{ message.codigo }}
+https://viacep.com.br/ws/{{ DEFAULT( message.url.cep, "04547-130" ) }}/json/
+https://viacep.com.br/ws/00000000/json/
+
+Boas praticas:
+  >> URLs e contas: utilizar sempre Globals e Accounts
+  >> não carregar payloads muito grandes para nao estourar a memoria
+  >> sempre limpar quando utilizar a sessao / tabelas transitivas
+  >> dados de sessao caso puxe variavel igual, sera sobrescrito
+  >> sessao apenas salva campo da raiz da mensagem
+
+
+cards de execucao sao limitados a 50 cards

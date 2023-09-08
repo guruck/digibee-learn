@@ -1,0 +1,421 @@
+{
+  "meta": {
+    "e840584c-60cd-45af-9b12-32456a05f920": {
+      "position": {
+        "x": 173,
+        "y": 239
+      }
+    },
+    "88afba11-35f4-4076-a409-ee5cef1ffc79": {
+      "position": {
+        "x": 305,
+        "y": 236.4881135684904
+      }
+    },
+    "f71d87ce-415a-4de3-9ceb-253be0a52173": {
+      "position": {
+        "x": 41,
+        "y": 371
+      }
+    },
+    "c5e5740d-55e6-49bc-bd63-7207b4726a8f": {
+      "position": {
+        "x": 442,
+        "y": 239
+      }
+    },
+    "13557a4d-c3ac-4e8d-944b-d67d0a82712b": {
+      "position": {
+        "x": 729,
+        "y": 41
+      }
+    },
+    "b23d7df7-a191-4f4e-8280-c4f70bc3ba45": {
+      "position": {
+        "x": 861,
+        "y": 41
+      }
+    },
+    "0cefbe9e-1779-43d6-9ec6-47722538ed26": {
+      "position": {
+        "x": 993,
+        "y": 41
+      }
+    },
+    "f8176d0e-cfeb-44a8-b94b-555af42301a4": {
+      "position": {
+        "x": 729,
+        "y": 173
+      }
+    },
+    "0bb40a07-5d4f-4c0a-8ada-916fbfbb3d23": {
+      "position": {
+        "x": 861,
+        "y": 173
+      }
+    },
+    "54b5dac1-98a8-4caf-a505-b058729baa08": {
+      "position": {
+        "x": 993,
+        "y": 173
+      }
+    },
+    "28094710-bbf7-452f-adff-15cefb88a764": {
+      "position": {
+        "x": 729,
+        "y": 305
+      }
+    },
+    "e695c12d-e765-44e4-a649-2d2791573327": {
+      "position": {
+        "x": 861,
+        "y": 305
+      }
+    },
+    "1d7d277c-da97-46df-90fe-53732e93d35d": {
+      "position": {
+        "x": 993,
+        "y": 305
+      }
+    },
+    "5f6e082c-5162-4b21-a1ef-7a0cf2fc56d1": {
+      "position": {
+        "x": 729,
+        "y": 437
+      }
+    },
+    "cabfe87f-b6f5-4745-a4a8-a50557aa0eb1": {
+      "position": {
+        "x": 861,
+        "y": 437
+      }
+    }
+  },
+  "flowSpec": {
+    "disconnected-root:3daadaaf-4091-4f25-9bd2-9ff045ed56f2": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log Start Pipeline",
+        "params": {
+          "logLevel": "INFO",
+          "message": "processing message {{ message.$ }}"
+        },
+        "id": "e840584c-60cd-45af-9b12-32456a05f920",
+        "__documentation__": "Inicio do processamento"
+      },
+      {
+        "type": "connector",
+        "name": "block-execution-connector",
+        "stepName": "Block-Execution Validation Payload Entrada",
+        "params": {
+          "onProcess": "88afba11-35f4-4076-a409-ee5cef1ffc79-onProcessTrack",
+          "onException": "88afba11-35f4-4076-a409-ee5cef1ffc79-onExceptionTrack"
+        },
+        "id": "88afba11-35f4-4076-a409-ee5cef1ffc79",
+        "description": "Document here what this block is supposed to do.",
+        "__documentation__": "Block-Execution Validation Payload Entrada"
+      },
+      {
+        "type": "choice",
+        "stepName": "Choice",
+        "when": [
+          {
+            "jsonPath": "$.[?(@.method == \"POST\")]",
+            "target": "POST",
+            "__documentation__": "POST"
+          },
+          {
+            "jsonPath": "$.[?(@.method == \"GET\")]",
+            "target": "GET",
+            "__documentation__": "GET"
+          },
+          {
+            "jsonPath": "$.[?(@.method == \"DELETE\")]",
+            "target": "DELETE",
+            "__documentation__": "DELETE"
+          }
+        ],
+        "otherwise": "Nao implementado",
+        "id": "c5e5740d-55e6-49bc-bd63-7207b4726a8f",
+        "__otherwiseDocumentation__": "methodo nao implementado"
+      }
+    ],
+    "88afba11-35f4-4076-a409-ee5cef1ffc79-onProcessTrack": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log Validation Block Execution",
+        "params": {
+          "logLevel": "INFO",
+          "message": "processing Block Execution"
+        },
+        "id": "f0b94a94-8a50-44f0-abcf-5a679f647ddc",
+        "__documentation__": "Inicio do processamento Block Execution"
+      },
+      {
+        "type": "connector",
+        "name": "validator-connector-v2",
+        "stepName": "Validator V2 (JSON Schema)",
+        "params": {
+          "draftVersion": "v4",
+          "detectDraftVersion": false,
+          "jsonPayload": "{{ message.$ }}",
+          "jsonSchema": "{\n  \"schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"additionalProperties\": true,\n  \"definitions\": {},\n  \"id\": \"http://json-schema.org/draft-04/schema#\",\n  \"properties\":{\n    \"method\": {\n      \"type\": \"string\"\n    },\n    \"queryParams\":{\n      \"type\": \"object\",\n      \"properties\": { \n        \"pipe\": \"string\" \n      },\"required\":[\"pipe\"]\n    }\n  },\n  \"required\":[\n    \"method\",\n    \"queryParams\"\n  ],\n  \"type\": \"object\"\n}",
+          "simplifyResults": false,
+          "failOnError": false
+        },
+        "id": "5d96b379-f330-4310-b966-b4677ac5fb8e",
+        "__documentation__": ""
+      },
+      {
+        "type": "choice",
+        "stepName": "Choice",
+        "when": [
+          {
+            "jsonPath": "$.[?(@.success == false)]",
+            "target": "ERRO",
+            "__documentation__": "ERROR"
+          }
+        ],
+        "otherwise": "success",
+        "id": "bd0884ee-2d4c-40b0-b9e6-d056431b08e3",
+        "__otherwiseDocumentation__": "success "
+      }
+    ],
+    "ERRO": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log ERROR Block Execution",
+        "params": {
+          "logLevel": "ERROR",
+          "message": "Error processing message {{ message.$ }}"
+        },
+        "id": "f909ca51-f30b-43c7-a526-cea31a6f5217",
+        "__documentation__": "Final do processamento Block Execution"
+      },
+      {
+        "type": "connector",
+        "name": "throw-error-connector",
+        "stepName": "Throw Error",
+        "params": {
+          "errorMessage": "Error occurred. Requisicao mal formulada",
+          "errorCode": "400",
+          "customErrorEnabled": false
+        },
+        "id": "e0205219-6c2f-4040-88f4-e9860ae9705a",
+        "__documentation__": "requisicao mal formulada"
+      }
+    ],
+    "success": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log Success Block Execution",
+        "params": {
+          "logLevel": "INFO",
+          "message": "processing Block Execution"
+        },
+        "id": "b157fd62-b66b-4a5c-bbe1-f03389aa3e5b",
+        "__documentation__": "Final do processamento Block Execution"
+      }
+    ],
+    "88afba11-35f4-4076-a409-ee5cef1ffc79-onExceptionTrack": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log ERROR Block Validation",
+        "params": {
+          "logLevel": "ERROR",
+          "message": "processing message {{ message.$ }}"
+        },
+        "id": "df894458-14ee-431e-9183-0797f77b844f",
+        "__documentation__": "Fim do processamento"
+      },
+      {
+        "type": "connector",
+        "name": "throw-error-connector",
+        "stepName": "Throw Error",
+        "params": {
+          "errorMessage": "Error occurred. Requisicao mal formulada",
+          "errorCode": "400",
+          "customErrorEnabled": false
+        },
+        "id": "67ab523b-993c-472c-b76b-2499060a8913",
+        "__documentation__": "requisicao mal formulada"
+      }
+    ],
+    "POST": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log POST",
+        "params": {
+          "logLevel": "INFO",
+          "message": "processing message {{ message.$ }}"
+        },
+        "id": "13557a4d-c3ac-4e8d-944b-d67d0a82712b",
+        "__documentation__": "Inicio do processamento"
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "JSON POST",
+        "params": {
+          "json": "{\n  \"json_de_entrada\":{\n    \"pipeline_name\": {{ DEFAULT( message.queryParams.pipe, metadata.pipeline.name ) }},\n    \"customer\": {{ message.body.customer }}\n  }\n}",
+          "failOnError": false
+        },
+        "id": "b23d7df7-a191-4f4e-8280-c4f70bc3ba45",
+        "__documentation__": "entrada espera"
+      },
+      {
+        "type": "connector",
+        "name": "object-store-connector",
+        "accountLabel": "dgb-internal-object-store-account",
+        "stepName": "Object Store - Save Payload",
+        "params": {
+          "operation": "INSERT",
+          "objectStore": "sample-temporary-base",
+          "objectId": "{{ UUID() }}",
+          "document": "{{ message.json_de_entrada }}",
+          "unique": true,
+          "isolated": false,
+          "upsert": false,
+          "failOnError": false
+        },
+        "id": "0cefbe9e-1779-43d6-9ec6-47722538ed26"
+      }
+    ],
+    "GET": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log GET",
+        "params": {
+          "logLevel": "INFO",
+          "message": "processing message {{ message.$ }}"
+        },
+        "id": "f8176d0e-cfeb-44a8-b94b-555af42301a4",
+        "__documentation__": "Inicio do processamento"
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "JSON GET",
+        "params": {
+          "json": "{\n  \"pipeline_name\": {{ DEFAULT( message.queryParams.pipe, metadata.pipeline.name ) }}\n}",
+          "failOnError": false
+        },
+        "id": "0bb40a07-5d4f-4c0a-8ada-916fbfbb3d23",
+        "__documentation__": "entrada espera"
+      },
+      {
+        "type": "connector",
+        "name": "object-store-connector",
+        "accountLabel": "dgb-internal-object-store-account",
+        "stepName": "Object Store - Get Payload",
+        "params": {
+          "operation": "FIND_BY_QUERY",
+          "objectStore": "sample-temporary-base",
+          "objectId": "",
+          "query": "{\n  \"pipeline_name\": {{ message.pipeline_name }}\n}",
+          "document": "",
+          "limit": "",
+          "skip": "",
+          "sort": "",
+          "unique": true,
+          "isolated": false,
+          "upsert": false,
+          "failOnError": false
+        },
+        "id": "54b5dac1-98a8-4caf-a505-b058729baa08",
+        "__documentation__": ""
+      }
+    ],
+    "DELETE": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log DELETE",
+        "params": {
+          "logLevel": "WARN",
+          "message": "processing message {{ message.$ }}"
+        },
+        "id": "28094710-bbf7-452f-adff-15cefb88a764",
+        "__documentation__": "Inicio do processamento"
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "JSON DELETE",
+        "params": {
+          "json": "{\n  \"pipeline_name\": {{ DEFAULT( message.queryParams.pipe, metadata.pipeline.name ) }}\n}",
+          "failOnError": false
+        },
+        "id": "e695c12d-e765-44e4-a649-2d2791573327",
+        "__documentation__": "entrada espera"
+      },
+      {
+        "type": "connector",
+        "name": "object-store-connector",
+        "accountLabel": "dgb-internal-object-store-account",
+        "stepName": "Object Store - DELETE Payload",
+        "params": {
+          "operation": "DELETE_BY_QUERY",
+          "objectStore": "sample-temporary-base",
+          "objectId": "",
+          "query": "{}",
+          "document": "",
+          "limit": "",
+          "skip": "",
+          "sort": "",
+          "unique": true,
+          "isolated": false,
+          "upsert": false,
+          "failOnError": false
+        },
+        "id": "1d7d277c-da97-46df-90fe-53732e93d35d",
+        "__documentation__": ""
+      }
+    ],
+    "Nao implementado": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log Nao Implementado",
+        "params": {
+          "logLevel": "ERROR",
+          "message": "processing message {{ message.$ }}"
+        },
+        "id": "5f6e082c-5162-4b21-a1ef-7a0cf2fc56d1",
+        "__documentation__": "Inicio do processamento"
+      },
+      {
+        "type": "connector",
+        "name": "throw-error-connector",
+        "stepName": "Throw Error",
+        "params": {
+          "errorMessage": "Error occurred. Method Not Allowed",
+          "errorCode": "405",
+          "customErrorEnabled": false
+        },
+        "id": "cabfe87f-b6f5-4745-a4a8-a50557aa0eb1",
+        "__documentation__": "Methodo nao implementado"
+      }
+    ],
+    "disconnected-root:89a22182-56c1-4dce-8274-7559360f4e35": [
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "Payload Teste",
+        "params": {
+          "json": "{\n  \"id\": 5,\n  \"body\": {\n    \"customer\":{\n      \"id\": 5,\n      \"name\": \"Darth Vader\",\n      \"nickname\": \"Lord Vader\",\n      \"remover\": \"remover isso\"\n      }\n    },\n  \"queryParams\": {\n    \"pipe\": \"test-mode\",\n    \"pipeline\": \"test-mode-sample\"\n  },\n  \"method\": \"GET\",\n  \"suported_methods\": [\"GET\",\"POST\",\"DELETE\"],\n  \"path\": \"/pipeline/training/v1/sample-005\",\n  \"absoluteURI\": \"http://{DIGIBEE_HOST}/pipeline/training/v1/sample-005\"\n\n}",
+          "failOnError": false
+        },
+        "id": "f71d87ce-415a-4de3-9ceb-253be0a52173",
+        "__documentation__": ""
+      }
+    ]
+  }
+}

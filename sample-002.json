@@ -1,0 +1,148 @@
+{
+  "meta": {
+    "45135acc-5d00-4617-8544-2307d542ffaf": {
+      "position": {
+        "x": 305,
+        "y": 107
+      }
+    },
+    "86737393-bee4-4dd2-ba6c-791297c10ebd": {
+      "position": {
+        "x": 442,
+        "y": 107
+      }
+    },
+    "3a325ee7-3903-411b-b1b3-84d10e9dc534": {
+      "position": {
+        "x": 729,
+        "y": 41
+      }
+    },
+    "c72c4eaf-61f7-4cd6-b6a2-ad4bfd882c36": {
+      "position": {
+        "x": 861,
+        "y": 41
+      }
+    },
+    "e0f16eb6-9247-4e5a-ad95-171ddb494a23": {
+      "position": {
+        "x": 729,
+        "y": 173
+      }
+    },
+    "d0e9b76e-497c-45b5-b519-fa16c859685b": {
+      "position": {
+        "x": 861,
+        "y": 173
+      }
+    },
+    "b058d305-2190-40a7-a530-fdf5f5a33c46": {
+      "position": {
+        "x": 993,
+        "y": 173
+      }
+    },
+    "b38126ae-d7f8-4ae8-acdb-2324af8d5c1d": {
+      "position": {
+        "x": 173,
+        "y": 107
+      }
+    }
+  },
+  "flowSpec": {
+    "disconnected-root:fa9653fc-be0d-4370-b7c8-e074df5393e3": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log Start Pipeline",
+        "params": {
+          "logLevel": "INFO",
+          "message": "processing message {{ message.$ }}"
+        },
+        "id": "b38126ae-d7f8-4ae8-acdb-2324af8d5c1d",
+        "__documentation__": "Inicio do processamento"
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "Mock Entrada",
+        "params": {
+          "json": "{\n  \"body\": {\n    \"cep\": {{ DEFAULT( message.body.cep, \"311515200\" ) }}\n  },\n  \"queryParams\": {\n    \"nome\": {{ DEFAULT( message.queryParams.nome, \"joao\" ) }}\n  },\n  \"pessoa\":{\n    \"nome\": \"joao\",\n    \"endereco\": {\n      \"cep\": \"311515200\"\n    }\n  }\n}",
+          "failOnError": false
+        },
+        "id": "45135acc-5d00-4617-8544-2307d542ffaf",
+        "__documentation__": "dados de entrada para execucao da pipeline"
+      },
+      {
+        "type": "choice",
+        "stepName": "Choice",
+        "when": [
+          {
+            "target": "sucess",
+            "jsonPath": "$.pessoa[?(@.endereco.cep == $.body.cep && @.nome == $.queryParams.nome )]",
+            "__documentation__": ""
+          }
+        ],
+        "otherwise": "error",
+        "id": "86737393-bee4-4dd2-ba6c-791297c10ebd",
+        "__documentation__": "ponto de decisao"
+      }
+    ],
+    "sucess": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log Sucesso",
+        "params": {
+          "logLevel": "INFO",
+          "message": "processing message {{ message.$.pessoa }}"
+        },
+        "id": "3a325ee7-3903-411b-b1b3-84d10e9dc534"
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "JSON retorno",
+        "params": {
+          "json": "{\n  \"sucesso\": {{ message.pessoa }},\n  \"code\": 200\n}",
+          "failOnError": false
+        },
+        "id": "c72c4eaf-61f7-4cd6-b6a2-ad4bfd882c36",
+        "__documentation__": "retorna o sucesso com a mensagem caso as condições sejam atendidas"
+      }
+    ],
+    "error": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log ERROR Default",
+        "params": {
+          "logLevel": "ERROR",
+          "message": "Error processing message {{ message.$ }}"
+        },
+        "id": "e0f16eb6-9247-4e5a-ad95-171ddb494a23",
+        "__documentation__": "Log para erro"
+      },
+      {
+        "type": "connector",
+        "name": "throw-error-connector",
+        "stepName": "Throw Error",
+        "params": {
+          "customErrorEnabled": true,
+          "customError": "{\n  \"timestamp\": {{ NOW() }},\n  \"error\": \"Error occurred. Bad Request\",\n  \"execution_key\": {{ metadata.execution.key }},\n  \"code\": 400\n}"
+        },
+        "id": "d0e9b76e-497c-45b5-b519-fa16c859685b"
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "Esse aqui nAo executa",
+        "params": {
+          "json": "{\n  \"error\": \"Error occurred. Bad Request\",\n  \"code\": 400\n}",
+          "failOnError": false
+        },
+        "id": "b058d305-2190-40a7-a530-fdf5f5a33c46"
+      }
+    ]
+  }
+}
