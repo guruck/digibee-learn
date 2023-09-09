@@ -9,13 +9,7 @@
     "88afba11-35f4-4076-a409-ee5cef1ffc79": {
       "position": {
         "x": 305,
-        "y": 236.4881135684904
-      }
-    },
-    "f71d87ce-415a-4de3-9ceb-253be0a52173": {
-      "position": {
-        "x": 41,
-        "y": 371
+        "y": 239
       }
     },
     "c5e5740d-55e6-49bc-bd63-7207b4726a8f": {
@@ -30,15 +24,9 @@
         "y": 41
       }
     },
-    "b23d7df7-a191-4f4e-8280-c4f70bc3ba45": {
-      "position": {
-        "x": 861,
-        "y": 41
-      }
-    },
     "0cefbe9e-1779-43d6-9ec6-47722538ed26": {
       "position": {
-        "x": 993,
+        "x": 861,
         "y": 41
       }
     },
@@ -48,15 +36,9 @@
         "y": 173
       }
     },
-    "0bb40a07-5d4f-4c0a-8ada-916fbfbb3d23": {
-      "position": {
-        "x": 861,
-        "y": 173
-      }
-    },
     "54b5dac1-98a8-4caf-a505-b058729baa08": {
       "position": {
-        "x": 993,
+        "x": 861,
         "y": 173
       }
     },
@@ -66,15 +48,9 @@
         "y": 305
       }
     },
-    "e695c12d-e765-44e4-a649-2d2791573327": {
-      "position": {
-        "x": 861,
-        "y": 305
-      }
-    },
     "1d7d277c-da97-46df-90fe-53732e93d35d": {
       "position": {
-        "x": 993,
+        "x": 861,
         "y": 305
       }
     },
@@ -89,10 +65,16 @@
         "x": 861,
         "y": 437
       }
+    },
+    "f71d87ce-415a-4de3-9ceb-253be0a52173": {
+      "position": {
+        "x": 41,
+        "y": 371
+      }
     }
   },
   "flowSpec": {
-    "disconnected-root:3daadaaf-4091-4f25-9bd2-9ff045ed56f2": [
+    "disconnected-root:1452f2c1-88ef-491c-b7cc-e651877044c0": [
       {
         "type": "connector",
         "name": "log-connector",
@@ -121,18 +103,18 @@
         "stepName": "Choice",
         "when": [
           {
-            "jsonPath": "$.[?(@.method == \"POST\")]",
             "target": "POST",
+            "jsonPath": "$.[?(@.method == \"POST\")]",
             "__documentation__": "POST"
           },
           {
-            "jsonPath": "$.[?(@.method == \"GET\")]",
             "target": "GET",
+            "jsonPath": "$.[?(@.method == \"GET\")]",
             "__documentation__": "GET"
           },
           {
-            "jsonPath": "$.[?(@.method == \"DELETE\")]",
             "target": "DELETE",
+            "jsonPath": "$.[?(@.method == \"DELETE\")]",
             "__documentation__": "DELETE"
           }
         ],
@@ -163,62 +145,21 @@
           "jsonPayload": "{{ message.$ }}",
           "jsonSchema": "{\n  \"schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"additionalProperties\": true,\n  \"definitions\": {},\n  \"id\": \"http://json-schema.org/draft-04/schema#\",\n  \"properties\":{\n    \"method\": {\n      \"type\": \"string\"\n    },\n    \"queryParams\":{\n      \"type\": \"object\",\n      \"properties\": { \n        \"pipe\": \"string\" \n      },\"required\":[\"pipe\"]\n    }\n  },\n  \"required\":[\n    \"method\",\n    \"queryParams\"\n  ],\n  \"type\": \"object\"\n}",
           "simplifyResults": false,
-          "failOnError": false
+          "failOnError": true
         },
         "id": "5d96b379-f330-4310-b966-b4677ac5fb8e",
         "__documentation__": ""
       },
       {
-        "type": "choice",
-        "stepName": "Choice",
-        "when": [
-          {
-            "jsonPath": "$.[?(@.success == false)]",
-            "target": "ERRO",
-            "__documentation__": "ERROR"
-          }
-        ],
-        "otherwise": "success",
-        "id": "bd0884ee-2d4c-40b0-b9e6-d056431b08e3",
-        "__otherwiseDocumentation__": "success "
-      }
-    ],
-    "ERRO": [
-      {
+        "name": "json-generator-connector",
         "type": "connector",
-        "name": "log-connector",
-        "stepName": "Log ERROR Block Execution",
+        "stepName": "JSON transformation",
         "params": {
-          "logLevel": "ERROR",
-          "message": "Error processing message {{ message.$ }}"
+          "json": "{\n  \"json_de_entrada\":{\n    \"pipeline_name\": {{ DEFAULT( message.queryParams.pipe, metadata.pipeline.name ) }},\n    \"customer\": {{ DEFAULT( message.body.customer, \"\" ) }}\n  },\n  \"method\": {{ message.method }}\n}",
+          "failOnError": false
         },
-        "id": "f909ca51-f30b-43c7-a526-cea31a6f5217",
-        "__documentation__": "Final do processamento Block Execution"
-      },
-      {
-        "type": "connector",
-        "name": "throw-error-connector",
-        "stepName": "Throw Error",
-        "params": {
-          "errorMessage": "Error occurred. Requisicao mal formulada",
-          "errorCode": "400",
-          "customErrorEnabled": false
-        },
-        "id": "e0205219-6c2f-4040-88f4-e9860ae9705a",
-        "__documentation__": "requisicao mal formulada"
-      }
-    ],
-    "success": [
-      {
-        "type": "connector",
-        "name": "log-connector",
-        "stepName": "Log Success Block Execution",
-        "params": {
-          "logLevel": "INFO",
-          "message": "processing Block Execution"
-        },
-        "id": "b157fd62-b66b-4a5c-bbe1-f03389aa3e5b",
-        "__documentation__": "Final do processamento Block Execution"
+        "id": "9708d39c-be4b-45c0-ba2a-8d56c95b6d46",
+        "__documentation__": "entrada espera"
       }
     ],
     "88afba11-35f4-4076-a409-ee5cef1ffc79-onExceptionTrack": [
@@ -238,12 +179,12 @@
         "name": "throw-error-connector",
         "stepName": "Throw Error",
         "params": {
-          "errorMessage": "Error occurred. Requisicao mal formulada",
+          "errorMessage": "Error occurred. {{ message.error }}",
           "errorCode": "400",
           "customErrorEnabled": false
         },
-        "id": "67ab523b-993c-472c-b76b-2499060a8913",
-        "__documentation__": "requisicao mal formulada"
+        "id": "2da8f9ed-368f-4ab0-916f-f7baf4c7ab59",
+        "__documentation__": ""
       }
     ],
     "POST": [
@@ -257,17 +198,6 @@
         },
         "id": "13557a4d-c3ac-4e8d-944b-d67d0a82712b",
         "__documentation__": "Inicio do processamento"
-      },
-      {
-        "name": "json-generator-connector",
-        "type": "connector",
-        "stepName": "JSON POST",
-        "params": {
-          "json": "{\n  \"json_de_entrada\":{\n    \"pipeline_name\": {{ DEFAULT( message.queryParams.pipe, metadata.pipeline.name ) }},\n    \"customer\": {{ message.body.customer }}\n  }\n}",
-          "failOnError": false
-        },
-        "id": "b23d7df7-a191-4f4e-8280-c4f70bc3ba45",
-        "__documentation__": "entrada espera"
       },
       {
         "type": "connector",
@@ -284,7 +214,8 @@
           "upsert": false,
           "failOnError": false
         },
-        "id": "0cefbe9e-1779-43d6-9ec6-47722538ed26"
+        "id": "0cefbe9e-1779-43d6-9ec6-47722538ed26",
+        "__documentation__": ""
       }
     ],
     "GET": [
@@ -300,17 +231,6 @@
         "__documentation__": "Inicio do processamento"
       },
       {
-        "name": "json-generator-connector",
-        "type": "connector",
-        "stepName": "JSON GET",
-        "params": {
-          "json": "{\n  \"pipeline_name\": {{ DEFAULT( message.queryParams.pipe, metadata.pipeline.name ) }}\n}",
-          "failOnError": false
-        },
-        "id": "0bb40a07-5d4f-4c0a-8ada-916fbfbb3d23",
-        "__documentation__": "entrada espera"
-      },
-      {
         "type": "connector",
         "name": "object-store-connector",
         "accountLabel": "dgb-internal-object-store-account",
@@ -319,7 +239,7 @@
           "operation": "FIND_BY_QUERY",
           "objectStore": "sample-temporary-base",
           "objectId": "",
-          "query": "{\n  \"pipeline_name\": {{ message.pipeline_name }}\n}",
+          "query": "{\n  \"pipeline_name\": {{ message.json_de_entrada.pipeline_name }}\n}",
           "document": "",
           "limit": "",
           "skip": "",
@@ -346,17 +266,6 @@
         "__documentation__": "Inicio do processamento"
       },
       {
-        "name": "json-generator-connector",
-        "type": "connector",
-        "stepName": "JSON DELETE",
-        "params": {
-          "json": "{\n  \"pipeline_name\": {{ DEFAULT( message.queryParams.pipe, metadata.pipeline.name ) }}\n}",
-          "failOnError": false
-        },
-        "id": "e695c12d-e765-44e4-a649-2d2791573327",
-        "__documentation__": "entrada espera"
-      },
-      {
         "type": "connector",
         "name": "object-store-connector",
         "accountLabel": "dgb-internal-object-store-account",
@@ -375,8 +284,7 @@
           "upsert": false,
           "failOnError": false
         },
-        "id": "1d7d277c-da97-46df-90fe-53732e93d35d",
-        "__documentation__": ""
+        "id": "1d7d277c-da97-46df-90fe-53732e93d35d"
       }
     ],
     "Nao implementado": [
@@ -396,7 +304,7 @@
         "name": "throw-error-connector",
         "stepName": "Throw Error",
         "params": {
-          "errorMessage": "Error occurred. Method Not Allowed",
+          "errorMessage": "Error occurred. Method Not Allowed, suported methods ['GET', 'POST', 'DELETE']",
           "errorCode": "405",
           "customErrorEnabled": false
         },
@@ -404,7 +312,7 @@
         "__documentation__": "Methodo nao implementado"
       }
     ],
-    "disconnected-root:89a22182-56c1-4dce-8274-7559360f4e35": [
+    "disconnected-root:b146e2f4-faef-4cd2-bf10-553d3d788879": [
       {
         "name": "json-generator-connector",
         "type": "connector",
@@ -413,8 +321,7 @@
           "json": "{\n  \"id\": 5,\n  \"body\": {\n    \"customer\":{\n      \"id\": 5,\n      \"name\": \"Darth Vader\",\n      \"nickname\": \"Lord Vader\",\n      \"remover\": \"remover isso\"\n      }\n    },\n  \"queryParams\": {\n    \"pipe\": \"test-mode\",\n    \"pipeline\": \"test-mode-sample\"\n  },\n  \"method\": \"GET\",\n  \"suported_methods\": [\"GET\",\"POST\",\"DELETE\"],\n  \"path\": \"/pipeline/training/v1/sample-005\",\n  \"absoluteURI\": \"http://{DIGIBEE_HOST}/pipeline/training/v1/sample-005\"\n\n}",
           "failOnError": false
         },
-        "id": "f71d87ce-415a-4de3-9ceb-253be0a52173",
-        "__documentation__": ""
+        "id": "f71d87ce-415a-4de3-9ceb-253be0a52173"
       }
     ]
   }

@@ -1,9 +1,11 @@
 course starts 004 learn components beast pratices
 
-743106244
+743141746
 SELECT * FROM clientes WHERE codigo - {{ message.codigo }}
 https://viacep.com.br/ws/{{ DEFAULT( message.url.cep, "04547-130" ) }}/json/
 https://viacep.com.br/ws/00000000/json/
+$.[?(@.error)]
+https://jolt-demo.appspot.com/#modify-stringFunctions
 
 Boas praticas:
   >> URLs e contas: utilizar sempre Globals e Accounts
@@ -11,6 +13,10 @@ Boas praticas:
   >> sempre limpar quando utilizar a sessao / tabelas transitivas
   >> dados de sessao caso puxe variavel igual, sera sobrescrito
   >> sessao apenas salva campo da raiz da mensagem
+  >> StreamDB é mais performatico que usar leitura de banco para depois iterar com foreach
+  >> para encadear erros é necessário dispara-los no "Throw Error". cards de execucao sao limitados a 50 cards
 
 
-cards de execucao sao limitados a 50 cards
+
+
+

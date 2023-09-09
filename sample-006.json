@@ -1,0 +1,436 @@
+{
+  "meta": {
+    "7d13e497-79cb-4df2-9d73-842d0ddeac4a": {
+      "position": {
+        "x": 173,
+        "y": 41
+      }
+    },
+    "8d6ac906-ff65-474b-ab18-7665d8f060be": {
+      "position": {
+        "x": 305,
+        "y": 41
+      }
+    },
+    "e014e678-4a21-4de9-ac41-c8ac44543cb9": {
+      "position": {
+        "x": 437,
+        "y": 41
+      }
+    },
+    "dd453178-fbb6-47cd-9bad-d83f8cd501c1": {
+      "position": {
+        "x": 569,
+        "y": 41
+      }
+    },
+    "6efaf5b0-5f20-424d-a505-28c8446fbc7e": {
+      "position": {
+        "x": 701,
+        "y": 41
+      }
+    },
+    "30ee65a9-3d13-4a16-8452-3115a96a0c6f": {
+      "position": {
+        "x": 833,
+        "y": 41
+      }
+    },
+    "ba7b614e-6729-4d87-8676-18767e1ad533": {
+      "position": {
+        "x": 965,
+        "y": 41
+      }
+    },
+    "010ae2e8-9b58-4ab7-8b0a-e98e3eab73e1": {
+      "position": {
+        "x": 1097,
+        "y": 41
+      }
+    },
+    "01af2fd9-974d-4c7d-968b-e0e2bca25bdd": {
+      "position": {
+        "x": 1229,
+        "y": 41
+      }
+    },
+    "3ba2805a-1697-4479-b874-2c195c30425c": {
+      "position": {
+        "x": 1361,
+        "y": 41
+      }
+    }
+  },
+  "flowSpec": {
+    "disconnected-root:ea51bc69-bca1-4df7-aa0c-329432e361e9": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log Start Pipeline",
+        "params": {
+          "logLevel": "INFO",
+          "message": "processing message {{ message.$ }}"
+        },
+        "id": "7d13e497-79cb-4df2-9d73-842d0ddeac4a",
+        "__documentation__": "Inicio do processamento"
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "Mock Entrada",
+        "params": {
+          "json": "{\n  \"registros\": [{\n      \"code\": 1,\n      \"name\": \"Darth Vader\",\n      \"nickname\": \"Lord Vader\",\n      \"cep\": \"65025450\"\n    },{\n      \"code\": 2,\n      \"name\": \"Lucas SkyWalker\",\n      \"nickname\": \"Jovem Padawan\",\n      \"cep\": \"59122610\"\n    },{\n      \"code\": 3,\n      \"name\": \"Leia SkyWalker\",\n      \"nickname\": \"Princesa Leia\",\n      \"cep\": \"77430760\"\n    },{\n      \"code\": 4,\n      \"name\": \"Show Show\",\n      \"nickname\": \"Chewbacca\",\n      \"cep\": \"67145039\"\n    },{\n      \"code\": 5,\n      \"name\": \"Robo de Ouro\",\n      \"nickname\": \"C-3PO\",\n      \"cep\": \"59607107\"\n    }]\n}",
+          "failOnError": false
+        },
+        "id": "8d6ac906-ff65-474b-ab18-7665d8f060be",
+        "__documentation__": "entrada espera"
+      },
+      {
+        "type": "connector",
+        "name": "for-each-connector",
+        "stepName": "For Each",
+        "params": {
+          "jsonPath": "$.registros.*",
+          "itemIdentifier": "",
+          "parallel": false,
+          "failOnError": false,
+          "onProcess": "e014e678-4a21-4de9-ac41-c8ac44543cb9-onProcessTrack",
+          "onException": "e014e678-4a21-4de9-ac41-c8ac44543cb9-onExceptionTrack"
+        },
+        "id": "e014e678-4a21-4de9-ac41-c8ac44543cb9"
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "JSON Generator",
+        "params": {
+          "json": "{\n  \"sumary\": {{ message.$ }}\n}",
+          "failOnError": false
+        },
+        "id": "dd453178-fbb6-47cd-9bad-d83f8cd501c1",
+        "__documentation__": ""
+      },
+      {
+        "type": "session-management",
+        "stepName": "Put sumary",
+        "operation": "PUT",
+        "sessionType": "LOCAL",
+        "scoped": false,
+        "fields": [
+          "sumary"
+        ],
+        "id": "6efaf5b0-5f20-424d-a505-28c8446fbc7e",
+        "__documentation__": ""
+      },
+      {
+        "type": "connector",
+        "name": "object-store-connector",
+        "accountLabel": "dgb-internal-object-store-account",
+        "stepName": "Object Store - GET Errors",
+        "params": {
+          "operation": "FIND_BY_QUERY",
+          "objectStore": "sample-temporary-base",
+          "query": "{}",
+          "limit": "",
+          "skip": "",
+          "sort": "",
+          "unique": true,
+          "isolated": false,
+          "upsert": false,
+          "failOnError": false
+        },
+        "id": "30ee65a9-3d13-4a16-8452-3115a96a0c6f",
+        "__documentation__": ""
+      },
+      {
+        "type": "session-management",
+        "stepName": "Put data",
+        "operation": "PUT",
+        "sessionType": "LOCAL",
+        "scoped": false,
+        "fields": [
+          "data"
+        ],
+        "id": "ba7b614e-6729-4d87-8676-18767e1ad533",
+        "__documentation__": ""
+      },
+      {
+        "type": "connector",
+        "name": "object-store-connector",
+        "accountLabel": "dgb-internal-object-store-account",
+        "stepName": "Object Store - DELETE ALL Errors",
+        "params": {
+          "operation": "DELETE_BY_QUERY",
+          "objectStore": "sample-temporary-base",
+          "query": "{}",
+          "limit": "",
+          "skip": "",
+          "sort": "",
+          "unique": true,
+          "isolated": false,
+          "upsert": false,
+          "failOnError": false
+        },
+        "id": "010ae2e8-9b58-4ab7-8b0a-e98e3eab73e1",
+        "__documentation__": ""
+      },
+      {
+        "type": "session-management",
+        "stepName": "GET sumary, data",
+        "operation": "GET",
+        "sessionType": "LOCAL",
+        "scoped": false,
+        "fields": [
+          "sumary",
+          "data"
+        ],
+        "id": "01af2fd9-974d-4c7d-968b-e0e2bca25bdd",
+        "__documentation__": ""
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "REPORT Generator",
+        "params": {
+          "json": "{\n  \"sumary\": {{ message.sumary }},\n  \"errorDetails\": {{ message.data }}\n}",
+          "failOnError": false
+        },
+        "id": "3ba2805a-1697-4479-b874-2c195c30425c",
+        "__documentation__": ""
+      }
+    ],
+    "e014e678-4a21-4de9-ac41-c8ac44543cb9-onProcessTrack": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log Start For Each",
+        "params": {
+          "logLevel": "INFO",
+          "message": "processing message {{ message.$ }}"
+        },
+        "id": "2857e01e-27eb-49ec-87e2-4571070c7aca",
+        "__documentation__": "Inicio do For Each"
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "JSON Generator",
+        "params": {
+          "json": "{\n\"client\": {{ message.$ }}\n}",
+          "failOnError": false
+        },
+        "id": "0713c728-4c04-41b5-a4bf-b5df6eb5e2cf",
+        "__documentation__": ""
+      },
+      {
+        "type": "session-management",
+        "stepName": "Put Client",
+        "operation": "PUT",
+        "sessionType": "LOCAL",
+        "scoped": false,
+        "fields": [
+          "client"
+        ],
+        "id": "9a6ef084-0738-4d0f-8401-8f28ac50677e",
+        "__documentation__": ""
+      },
+      {
+        "type": "connector",
+        "name": "block-execution-connector",
+        "stepName": "Block-Execution",
+        "params": {
+          "onProcess": "203e29da-5dcd-4289-afaa-0a886bce36b7-onProcessTrack",
+          "onException": "203e29da-5dcd-4289-afaa-0a886bce36b7-onExceptionTrack"
+        },
+        "id": "203e29da-5dcd-4289-afaa-0a886bce36b7"
+      },
+      {
+        "type": "session-management",
+        "stepName": "Get Client",
+        "operation": "GET",
+        "sessionType": "LOCAL",
+        "scoped": false,
+        "fields": [
+          "client"
+        ],
+        "id": "48e6335b-caa6-40e1-872b-c6eebbdc8f77",
+        "__documentation__": ""
+      },
+      {
+        "type": "session-management",
+        "stepName": "DELETE Client",
+        "operation": "DELETE",
+        "sessionType": "LOCAL",
+        "scoped": false,
+        "fields": [
+          "client"
+        ],
+        "id": "b51debea-5d72-470f-bcda-f6a86cb6bcd5",
+        "__documentation__": ""
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "JSON Generator",
+        "params": {
+          "json": "{\n    \"c_code\": {{ LEFTPAD( TOSTRING( message.client.code ), 5, \"0\" )  }},\n    \"c_name\": {{ RIGHTPAD( message.client.name, 30, \" \" )  }},\n    \"c_nickname\": {{ RIGHTPAD(UPPERCASE(REPLACE( message.client.nickname , \" \", \"_\")), 30, \" \") }},\n    \"c_cep\": {{ message.client.cep }},\n    \"c_localidade\": {{ RIGHTPAD(UPPERCASE(message.body.localidade), 30, \" \") }},\n    \"c_uf\": {{ message.body.uf }},\n    \"c_delim\": \",\"\n}",
+          "failOnError": false
+        },
+        "id": "006aa706-61b2-4b60-84fa-4e2824ff5117",
+        "__documentation__": ""
+      },
+      {
+        "type": "transformer",
+        "stepName": "Transformer (JOLT)",
+        "transformSpec": "[\r\n  {\r\n    \"operation\": \"shift\",\r\n    \"spec\": {\r\n      \"c_*\": {\r\n        \"@\": \"line[]\"\r\n      }\r\n    }\r\n  }, {\r\n    \"operation\": \"modify-overwrite-beta\",\r\n    \"spec\": {\r\n      \"line\": \"=join('',@(1,line))\",\r\n      \"success\": true\r\n    }\r\n  }\r\n]",
+        "id": "6e23a919-9c53-4008-86a8-565302d871e1",
+        "__documentation__": ""
+      }
+    ],
+    "203e29da-5dcd-4289-afaa-0a886bce36b7-onProcessTrack": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log Block Execution Start",
+        "params": {
+          "logLevel": "INFO",
+          "message": "processing message {{ message.$ }}"
+        },
+        "id": "cab78d0c-4a23-47b0-91c3-2b9d257c133f",
+        "__documentation__": "Processamento do Block Execution"
+      },
+      {
+        "type": "connector",
+        "name": "rest-connector-v2",
+        "stepName": "REST V2 (HTTP / APIs)",
+        "params": {
+          "url": "{{ REPLACE(\"{{global.cep-url}}\", \"00000000\", message.client.cep ) }}",
+          "headers": "{\"Content-Type\":\"application/json\"}",
+          "queryParams": "",
+          "operation": "GET",
+          "sendBinaryFile": false,
+          "fileName": "",
+          "useDynamicAccount": false,
+          "scoped": false,
+          "accountName": "",
+          "connectTimeout": 30000,
+          "readTimeout": 30000,
+          "stopOnClientError": false,
+          "stopOnServerError": false,
+          "overrideResponseCharset": true,
+          "responseCharset": "UTF-8",
+          "advanced": false,
+          "rawMode": false,
+          "rawModeAsBase64": false,
+          "saveAsLocalFile": false,
+          "isInsecure": false,
+          "retry": false,
+          "maxRetry": 0,
+          "compressBody": false,
+          "forceHttp1": false,
+          "disableConnectionPool": false,
+          "invalidateSSLSessionsOnEveryCall": false
+        },
+        "id": "df59d1ee-7c60-4efe-81ea-a345bc337aad",
+        "accountLabel": "",
+        "accountLabels": {
+          "custom-1": "",
+          "custom-2": ""
+        },
+        "__documentation__": ""
+      },
+      {
+        "type": "connector",
+        "name": "assert-connector-v2",
+        "stepName": "Assert V2",
+        "params": {
+          "condition": "{{ AND(NOT( EQUALTO( message.body.erro, true )), EQUALTO(message.status, 200)) }}",
+          "errorMessage": "Nao foi possivel obter o cep. {{ message.errorMessage }}",
+          "internalErrorMessage": "Nao foi possivel obter o cep. ",
+          "errorCode": "400",
+          "failOnError": true
+        },
+        "id": "8bbc3f67-8c51-4704-b28e-e25974309d00",
+        "__documentation__": ""
+      }
+    ],
+    "203e29da-5dcd-4289-afaa-0a886bce36b7-onExceptionTrack": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log ERROR Block Execution",
+        "params": {
+          "logLevel": "ERROR",
+          "message": "Error processing message {{ message.$ }}"
+        },
+        "id": "e543ac6e-5b34-4035-af9b-54b33f9a51d7",
+        "__documentation__": "Log para erro"
+      },
+      {
+        "type": "session-management",
+        "stepName": "Get Client",
+        "operation": "GET",
+        "sessionType": "LOCAL",
+        "scoped": false,
+        "fields": [
+          "client"
+        ],
+        "id": "ca182bf8-c126-44e2-9b0d-bdca11b86fc9",
+        "__documentation__": ""
+      },
+      {
+        "type": "connector",
+        "name": "throw-error-connector",
+        "stepName": "Throw Error Block Execution",
+        "params": {
+          "customErrorEnabled": true,
+          "customError": "{\n  \"objerro\": {\n    \"status\": \"error\",\n    \"message\": {{ CONCAT(\"Error occurred \", message.error ) }},\n    \"payload\": {{ message.$ }}\n  }\n}"
+        },
+        "id": "0c5e9ffe-3eae-457a-b3a4-f323ecac709a",
+        "__documentation__": ""
+      }
+    ],
+    "e014e678-4a21-4de9-ac41-c8ac44543cb9-onExceptionTrack": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log Error For Each",
+        "params": {
+          "logLevel": "ERROR",
+          "message": "Error processing message {{ message.$ }}"
+        },
+        "id": "432326b4-2f94-4848-a000-8cb08ab14bd4",
+        "__documentation__": "Log Error For Each"
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "JSON Prepare Message",
+        "params": {
+          "json": "{\n  \"message\": {{ DEFAULT( message.objerro.message, CONCAT(\"Error occurred: \", message.error) ) }},\n  \"payload\": {{ DEFAULT( message.objerro.payload, \"payload nao salvo\" ) }},\n  \"pipelinename\": {{ metadata.pipeline.name }},\n  \"status\": {{ DEFAULT( message.objerro.status, \"error\" ) }},\n  \"executionkey\": {{ metadata.execution.key }},\n  \"id\": {{ CONCAT(metadata.execution.key, \"-\", FORMATDATE(NOW(), \"timestamp\", \"timestamp\", null, \"GMT-3\")) }}\n}",
+          "failOnError": false
+        },
+        "id": "b8d1dabe-75dd-4325-8a3e-2983e7db6a6b",
+        "__documentation__": ""
+      },
+      {
+        "type": "connector",
+        "name": "object-store-connector",
+        "accountLabel": "dgb-internal-object-store-account",
+        "stepName": "Object Store - Save Errors",
+        "params": {
+          "operation": "INSERT",
+          "objectStore": "sample-temporary-base",
+          "objectId": "{{ message.id }}",
+          "document": "{{ message.$ }}",
+          "unique": true,
+          "isolated": false,
+          "upsert": false,
+          "failOnError": false
+        },
+        "id": "26f450a9-669e-4218-8a6c-24753f797100",
+        "__documentation__": ""
+      }
+    ]
+  }
+}
