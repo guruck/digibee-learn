@@ -1,0 +1,484 @@
+{
+  "meta": {
+    "2edc348b-2141-4129-92a3-4246555c378d": {
+      "position": {
+        "x": 173,
+        "y": 107
+      }
+    },
+    "3df5b38f-8feb-4ed8-965b-bb89688962f1": {
+      "position": {
+        "x": 305,
+        "y": 107
+      }
+    },
+    "f811f70c-5893-4910-b94e-5e822e99cfce": {
+      "position": {
+        "x": 442,
+        "y": 107
+      }
+    },
+    "c9afcb62-1876-4410-a6e5-0c1b76144afc": {
+      "position": {
+        "x": 729,
+        "y": 41
+      }
+    },
+    "f6fd553d-c910-48a2-9f8f-96f6dc80d77d": {
+      "position": {
+        "x": 861,
+        "y": 41
+      }
+    },
+    "b2f2a8b6-8097-4f49-a40f-bc3c73254aca": {
+      "position": {
+        "x": 993,
+        "y": 41
+      }
+    },
+    "f8ee74fa-3044-48b2-b5a1-ddac12f5bdd8": {
+      "position": {
+        "x": 729,
+        "y": 173
+      }
+    },
+    "6b41d1c5-6658-409e-829c-171650d12ec9": {
+      "position": {
+        "x": 861,
+        "y": 173
+      }
+    },
+    "1f777c78-a754-478c-8a7b-6472ce7cd47f": {
+      "position": {
+        "x": 993,
+        "y": 173
+      }
+    },
+    "bc496f19-533d-48c9-a070-5fd2588bcc77": {
+      "position": {
+        "x": 1125,
+        "y": 173
+      }
+    },
+    "08018323-22b0-4e85-93b0-51fccf7359c0": {
+      "position": {
+        "x": 1257,
+        "y": 173
+      }
+    },
+    "15e459ae-22f4-48de-9c48-6489fe53b419": {
+      "position": {
+        "x": 1389,
+        "y": 173
+      }
+    },
+    "1691b6f5-981f-493f-9c79-3601302f3503": {
+      "position": {
+        "x": 1521,
+        "y": 173
+      }
+    },
+    "501f4ce5-73dc-48f1-b28b-1a9269a84930": {
+      "position": {
+        "x": 1653,
+        "y": 173
+      }
+    },
+    "11249499-bdb7-488d-8777-260ffbf38850": {
+      "position": {
+        "x": 1785,
+        "y": 173
+      }
+    }
+  },
+  "flowSpec": {
+    "disconnected-root:5cd43d0c-9fbc-4e33-b3fc-5b5b97715581": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log Start Pipeline",
+        "params": {
+          "logLevel": "INFO",
+          "message": "processing message {{ message.$ }}"
+        },
+        "id": "2edc348b-2141-4129-92a3-4246555c378d",
+        "__documentation__": "Inicio do processamento"
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "Mock Entrada",
+        "params": {
+          "json": "{\r\n  \"status\": 200,\r\n  \"statusMessage\": \"OK\",\r\n  \"pipelineName\": \"sch-bsp-handson-tiago-rodrigues\",\r\n  \"body\": {\r\n    \"data\": [\r\n      {\r\n        \"fatherName\": \"Raffaello\",\r\n        \"identityDoc\": \"723.928.204-69\",\r\n        \"motherName\": \"Ernestine\",\r\n        \"birthDate\": \"1991-04-24\",\r\n        \"positionId\": \"1\",\r\n        \"erpIntegration\": false,\r\n        \"name\": \"Raffaello Muldoon\",\r\n        \"id\": 1,\r\n        \"position\": \"Tech Lead\",\r\n        \"zipCode\": \"11740-000\",\r\n        \"country\": \"Brazil\",\r\n        \"city\": \"Itanhaém\",\r\n        \"number\": \"738\",\r\n        \"streetName\": \"6th\"\r\n      },\r\n      {\r\n        \"fatherName\": \"Hobey\",\r\n        \"identityDoc\": \"367.673.998-68\",\r\n        \"motherName\": \"Viviyan\",\r\n        \"birthDate\": \"1996-10-20\",\r\n        \"positionId\": \"1\",\r\n        \"erpIntegration\": true,\r\n        \"name\": \"Hobey Tanfield\",\r\n        \"id\": 2,\r\n        \"position\": \"Tech Lead\",\r\n        \"zipCode\": \"97000-000\",\r\n        \"country\": \"Brazil\",\r\n        \"city\": \"Santa Maria\",\r\n        \"number\": \"122\",\r\n        \"streetName\": \"Kenwood\"\r\n      },\r\n      {\r\n        \"fatherName\": \"Hammad\",\r\n        \"identityDoc\": \"122.325.350-78\",\r\n        \"motherName\": \"Rosalinde\",\r\n        \"birthDate\": \"1990-05-24\",\r\n        \"positionId\": \"1\",\r\n        \"erpIntegration\": true,\r\n        \"name\": \"Hammad Frozek\",\r\n        \"id\": 3,\r\n        \"position\": \"Tech Lead\",\r\n        \"zipCode\": \"97000-000\",\r\n        \"country\": \"Brazil\",\r\n        \"city\": \"Santa Maria\",\r\n        \"number\": \"784\",\r\n        \"streetName\": \"Kenwood\"\r\n      },\r\n      {\r\n        \"fatherName\": \"Rikki\",\r\n        \"identityDoc\": \"586.099.097-03\",\r\n        \"motherName\": \"Bea\",\r\n        \"birthDate\": \"1997-01-08\",\r\n        \"positionId\": \"2\",\r\n        \"erpIntegration\": true,\r\n        \"name\": \"Rikki Varey\",\r\n        \"id\": 4,\r\n        \"position\": \"Manager\",\r\n        \"zipCode\": \"97000-000\",\r\n        \"country\": \"Brazil\",\r\n        \"city\": \"Santa Maria\",\r\n        \"number\": \"506\",\r\n        \"streetName\": \"Kenwood\"\r\n      }\r\n    ]\r\n  },\r\n  \"headers\": {\r\n    \"Connection\": \"keep-alive\",\r\n    \"Content-Type\": \"application/json\",\r\n    \"X-Digibee-Trace-Id\": \"e1fba23d-e714-49a7-99c1-d86c8f0f0d2f\"\r\n  }\r\n}",
+          "failOnError": false
+        },
+        "id": "3df5b38f-8feb-4ed8-965b-bb89688962f1",
+        "__documentation__": "entrada espera"
+      },
+      {
+        "type": "choice",
+        "stepName": "Choice",
+        "when": [
+          {
+            "target": "error",
+            "jsonPath": "$.[?(@.error)]",
+            "__documentation__": ""
+          }
+        ],
+        "otherwise": "success",
+        "id": "f811f70c-5893-4910-b94e-5e822e99cfce"
+      }
+    ],
+    "error": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log - ERROR",
+        "params": {
+          "logLevel": "ERROR",
+          "message": "Erro ao consultar registros {{ message.$ }}"
+        },
+        "id": "c9afcb62-1876-4410-a6e5-0c1b76144afc"
+      },
+      {
+        "type": "connector",
+        "name": "throw-error-connector",
+        "stepName": "Throw Error",
+        "params": {
+          "customErrorEnabled": true,
+          "customError": "{\n    \"status\": \"error\",\n    \"errorMessage\": \"Erro ao consultar registros do sistema A\",\n    \"error\": {{ DEFAULT( message.error, \"Erro Desconhecido\" ) }},\n    \"payload\": {{ message.$ }}\n}"
+        },
+        "id": "f6fd553d-c910-48a2-9f8f-96f6dc80d77d"
+      },
+      {
+        "type": "connector",
+        "name": "rest-connector-v2",
+        "stepName": "Captura os registros do sistema A",
+        "params": {
+          "url": "https://digibee-test/pipeline/enablement/v1/enablement-simulation-hr",
+          "headers": "{\"Content-Type\":\"application/json\",\"apikey\":\"DM2exHmhr12\",\"password\":\"1RC2H7R3gloq4FlsztE9klyFf\",\"user\":\"admin\"}",
+          "queryParams": "",
+          "operation": "GET",
+          "sendBinaryFile": false,
+          "fileName": "",
+          "useDynamicAccount": false,
+          "scoped": false,
+          "accountName": "",
+          "connectTimeout": 30000,
+          "readTimeout": 30000,
+          "stopOnClientError": false,
+          "stopOnServerError": false,
+          "overrideResponseCharset": true,
+          "responseCharset": "UTF-8",
+          "advanced": true,
+          "rawMode": false,
+          "rawModeAsBase64": false,
+          "saveAsLocalFile": false,
+          "isInsecure": true,
+          "retry": false,
+          "maxRetry": 0,
+          "compressBody": false,
+          "forceHttp1": false,
+          "disableConnectionPool": false,
+          "invalidateSSLSessionsOnEveryCall": false
+        },
+        "id": "b2f2a8b6-8097-4f49-a40f-bc3c73254aca",
+        "accountLabel": "",
+        "accountLabels": {
+          "custom-1": "",
+          "custom-2": ""
+        }
+      }
+    ],
+    "success": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log - SUCCESS",
+        "params": {
+          "logLevel": "INFO",
+          "message": "Sucesso ao consultar registros {{ message.$ }} "
+        },
+        "id": "f8ee74fa-3044-48b2-b5a1-ddac12f5bdd8"
+      },
+      {
+        "type": "connector",
+        "name": "for-each-connector",
+        "stepName": "For Each usuarios",
+        "params": {
+          "jsonPath": "$.body.data.*",
+          "itemIdentifier": "",
+          "parallel": false,
+          "failOnError": false,
+          "onProcess": "6b41d1c5-6658-409e-829c-171650d12ec9-onProcessTrack",
+          "onException": "6b41d1c5-6658-409e-829c-171650d12ec9-onExceptionTrack"
+        },
+        "id": "6b41d1c5-6658-409e-829c-171650d12ec9"
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "JSON Generator",
+        "params": {
+          "json": "{\n  \"sumary\": {{ message.$ }}\n}",
+          "failOnError": false
+        },
+        "id": "1f777c78-a754-478c-8a7b-6472ce7cd47f"
+      },
+      {
+        "type": "session-management",
+        "stepName": "Put sumary",
+        "operation": "PUT",
+        "sessionType": "LOCAL",
+        "scoped": false,
+        "fields": [
+          "sumary"
+        ],
+        "id": "bc496f19-533d-48c9-a070-5fd2588bcc77"
+      },
+      {
+        "type": "connector",
+        "name": "object-store-connector",
+        "accountLabel": "dgb-internal-object-store-account",
+        "stepName": "Object Store - GET Errors",
+        "params": {
+          "operation": "FIND_BY_QUERY",
+          "objectStore": "sample-temporary-base",
+          "query": "{}",
+          "limit": "",
+          "skip": "",
+          "sort": "",
+          "unique": true,
+          "isolated": false,
+          "upsert": false,
+          "failOnError": false
+        },
+        "id": "08018323-22b0-4e85-93b0-51fccf7359c0"
+      },
+      {
+        "type": "session-management",
+        "stepName": "Put data",
+        "operation": "PUT",
+        "sessionType": "LOCAL",
+        "scoped": false,
+        "fields": [
+          "data"
+        ],
+        "id": "15e459ae-22f4-48de-9c48-6489fe53b419"
+      },
+      {
+        "type": "connector",
+        "name": "object-store-connector",
+        "accountLabel": "dgb-internal-object-store-account",
+        "stepName": "Object Store - DELETE ALL Errors",
+        "params": {
+          "operation": "DELETE_BY_QUERY",
+          "objectStore": "sample-temporary-base",
+          "query": "{}",
+          "limit": "",
+          "skip": "",
+          "sort": "",
+          "unique": true,
+          "isolated": false,
+          "upsert": false,
+          "failOnError": false
+        },
+        "id": "1691b6f5-981f-493f-9c79-3601302f3503"
+      },
+      {
+        "type": "session-management",
+        "stepName": "GET sumary, data",
+        "operation": "GET",
+        "sessionType": "LOCAL",
+        "scoped": false,
+        "fields": [
+          "sumary",
+          "data"
+        ],
+        "id": "501f4ce5-73dc-48f1-b28b-1a9269a84930"
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "REPORT Generator",
+        "params": {
+          "json": "{\n  \"sumary\": {{ message.sumary }},\n  \"errorDetails\": {{ message.data }}\n}",
+          "failOnError": false
+        },
+        "id": "11249499-bdb7-488d-8777-260ffbf38850"
+      }
+    ],
+    "6b41d1c5-6658-409e-829c-171650d12ec9-onProcessTrack": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log Start For Each",
+        "params": {
+          "logLevel": "INFO",
+          "message": "processing message {{ message.$ }}"
+        },
+        "id": "98b7dacf-61a4-4a44-96c5-f1cda069a981",
+        "__documentation__": "Inicio do For Each"
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "Transform consumer/provider",
+        "params": {
+          "json": "{\n  \"person\": {\n    \"firstName\": {{ GETELEMENTAT(SPLIT( message.name, \" \" ), 0) }},\n    \"lastName\": {{ GETELEMENTAT(SPLIT( message.name, \" \" ), 1) }},\n    \"personIdentifier\": {{ REPLACE(message.identityDoc, \"\\\\.|-\", \"\") }},\n    \"birthDate\": {{ message.birthDate }},\n    \"country\": {{ message.country }},\n    \"postalCode\": {{ REPLACE(message.zipCode, \"-\", \"\") }},\n    \"town\": {{ message.city }},\n    \"address\": {{ CONCAT(message.streetName, \", \", message.number) }},\n    \"role\": {{ message.position }},\n    \"REF_RH\": {{ message.id }},\n    \"roleID\": {{ message.positionId }},\n    \"motherName\": {{ message.motherName }},\n    \"fatherName\": {{ message.fatherName }},\n    \"creationDate\": {{ FORMATDATE( NOW(), \"timestamp\", \"yyyy-MM-dd HH:mm:ss\") }}\n  }\n}\n",
+          "failOnError": false
+        },
+        "id": "75bb4780-078d-486a-9dc3-892228a18a3a"
+      },
+      {
+        "type": "choice",
+        "stepName": "Choice",
+        "when": [
+          {
+            "target": "error sistema B",
+            "jsonPath": "$.[?(@.error)]",
+            "__documentation__": ""
+          }
+        ],
+        "otherwise": "success sistema B",
+        "id": "87ae70ac-9f2e-4c1f-a9b8-cf36cf785b40"
+      }
+    ],
+    "error sistema B": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log - WARN",
+        "params": {
+          "logLevel": "WARN",
+          "message": "Erro ao inserir registro {{ message.$ }}"
+        },
+        "id": "f2af65dc-39e7-4d71-9388-a6edf9d3b9d3"
+      },
+      {
+        "type": "connector",
+        "name": "throw-error-connector",
+        "stepName": "Throw Error",
+        "params": {
+          "customErrorEnabled": true,
+          "customError": "{\n    \"status\": \"error\",\n    \"errorMessage\": \"Erro ao inserir registros no sistema B\",\n    \"error\": {{ DEFAULT( message.error, \"Erro Desconhecido\" ) }},\n    \"payload\": {{ message.$ }}\n}"
+        },
+        "id": "dd4aadc6-9ed6-457f-9c73-e7201817c656"
+      },
+      {
+        "type": "connector",
+        "name": "rest-connector-v2",
+        "stepName": "Envio de registro para o sistema B",
+        "params": {
+          "url": "https://digibee-test/pipeline/enablement/v1/api-training-simulation-erp",
+          "headers": "{\"Content-Type\":\"application/json\",\"apikey\":\"U22ZO3R0HSKmx\",\"password\":\"Sv6HOxkdiDSWN3qbATd\"}",
+          "queryParams": "",
+          "operation": "POST",
+          "sendBinaryFile": false,
+          "fileName": "",
+          "body": "{{ message.$ }}",
+          "useDynamicAccount": false,
+          "scoped": false,
+          "accountName": "",
+          "connectTimeout": 30000,
+          "readTimeout": 30000,
+          "stopOnClientError": false,
+          "stopOnServerError": false,
+          "overrideResponseCharset": true,
+          "responseCharset": "UTF-8",
+          "advanced": false,
+          "rawMode": false,
+          "rawModeAsBase64": false,
+          "saveAsLocalFile": false,
+          "isInsecure": false,
+          "retry": false,
+          "maxRetry": 0,
+          "compressBody": false,
+          "forceHttp1": false,
+          "disableConnectionPool": false,
+          "invalidateSSLSessionsOnEveryCall": false
+        },
+        "id": "dbdc6138-1e8e-4140-b0bf-ffece056549b",
+        "accountLabel": "",
+        "accountLabels": {
+          "custom-1": "",
+          "custom-2": ""
+        }
+      }
+    ],
+    "success sistema B": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log - SUCCESS",
+        "params": {
+          "logLevel": "INFO",
+          "message": "Sucesso ao consultar registros {{ message.$ }} "
+        },
+        "id": "1478d70c-7d63-4949-b1b9-7e10b0d1df51"
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "JSON Generator",
+        "params": {
+          "json": "{\"success\": true}",
+          "failOnError": false
+        },
+        "id": "6ced03ed-6ca2-44b9-8cb7-18eeac30be59"
+      }
+    ],
+    "6b41d1c5-6658-409e-829c-171650d12ec9-onExceptionTrack": [
+      {
+        "type": "connector",
+        "name": "log-connector",
+        "stepName": "Log Error For Each",
+        "params": {
+          "logLevel": "ERROR",
+          "message": "Error processing message {{ message.$ }}"
+        },
+        "id": "7ec38e02-1d84-4806-a662-ccc43142a6f6",
+        "__documentation__": "Log Error For Each"
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "Create ObjError",
+        "params": {
+          "json": "{\n  \"objerro\": {\n    \"status\": \"error\",\n    \"errorMessage\": {{ DEFAULT( message.errorMessage, \"Erro Desconhecido\" ) }},\n    \"error\": {{ DEFAULT( message.error, \"Erro Desconhecido\" ) }},\n    \"payload\": {{ DEFAULT( message.payload, message.$ ) }},\n    \"date\": {{ FORMATDATE( NOW(), \"timestamp\", \"dd/MM/yyyy HH:mm:ss\", null, \"GMT-3\") }}\n  }\n}",
+          "failOnError": false
+        },
+        "id": "a5f2a690-445e-47c8-b6ee-0de13a646160",
+        "__documentation__": ""
+      },
+      {
+        "name": "json-generator-connector",
+        "type": "connector",
+        "stepName": "JSON Prepare Message",
+        "params": {
+          "json": "{\n  \"message\": {{ DEFAULT( message.objerro.errorMessage, CONCAT(\"Error occurred: \", message.error) ) }},\n  \"payload\": {{ DEFAULT( message.objerro.payload, \"payload nao salvo\" ) }},\n  \"pipelinename\": {{ metadata.pipeline.name }},\n  \"status\": {{ DEFAULT( message.objerro.status, \"error\" ) }},\n  \"executionkey\": {{ metadata.execution.key }},\n  \"id\": {{ CONCAT(metadata.execution.key, \"-\", FORMATDATE(NOW(), \"timestamp\", \"timestamp\", null, \"GMT-3\")) }},\n}",
+          "failOnError": false
+        },
+        "id": "0eaa845b-60c1-4a48-b060-2c71379f6fda",
+        "__documentation__": ""
+      },
+      {
+        "type": "connector",
+        "name": "object-store-connector",
+        "accountLabel": "dgb-internal-object-store-account",
+        "stepName": "Object Store - Save Errors",
+        "params": {
+          "operation": "INSERT",
+          "objectStore": "sample-temporary-base",
+          "objectId": "{{ message.id }}",
+          "document": "{{ message.$ }}",
+          "unique": true,
+          "isolated": false,
+          "upsert": false,
+          "failOnError": false
+        },
+        "id": "d4a89ca9-4c2f-4adc-9abb-14eed40d1086"
+      }
+    ]
+  }
+}
