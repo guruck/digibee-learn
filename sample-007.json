@@ -92,7 +92,7 @@
     }
   },
   "flowSpec": {
-    "disconnected-root:5cd43d0c-9fbc-4e33-b3fc-5b5b97715581": [
+    "disconnected-root:2c597b5c-1a86-435f-b4d6-9aa230ecac9e": [
       {
         "type": "connector",
         "name": "log-connector",
@@ -244,7 +244,7 @@
         "params": {
           "operation": "FIND_BY_QUERY",
           "objectStore": "sample-temporary-base",
-          "query": "{}",
+          "query": "{\n\"executionkey\": {{ metadata.execution.key }}\n}",
           "limit": "",
           "skip": "",
           "sort": "",
@@ -253,7 +253,8 @@
           "upsert": false,
           "failOnError": false
         },
-        "id": "08018323-22b0-4e85-93b0-51fccf7359c0"
+        "id": "08018323-22b0-4e85-93b0-51fccf7359c0",
+        "__documentation__": ""
       },
       {
         "type": "session-management",
@@ -274,7 +275,7 @@
         "params": {
           "operation": "DELETE_BY_QUERY",
           "objectStore": "sample-temporary-base",
-          "query": "{}",
+          "query": "{\n\"executionkey\": {{ metadata.execution.key }}\n}",
           "limit": "",
           "skip": "",
           "sort": "",
@@ -283,7 +284,8 @@
           "upsert": false,
           "failOnError": false
         },
-        "id": "1691b6f5-981f-493f-9c79-3601302f3503"
+        "id": "1691b6f5-981f-493f-9c79-3601302f3503",
+        "__documentation__": ""
       },
       {
         "type": "session-management",
@@ -448,15 +450,14 @@
           "json": "{\n  \"objerro\": {\n    \"status\": \"error\",\n    \"errorMessage\": {{ DEFAULT( message.errorMessage, \"Erro Desconhecido\" ) }},\n    \"error\": {{ DEFAULT( message.error, \"Erro Desconhecido\" ) }},\n    \"payload\": {{ DEFAULT( message.payload, message.$ ) }},\n    \"date\": {{ FORMATDATE( NOW(), \"timestamp\", \"dd/MM/yyyy HH:mm:ss\", null, \"GMT-3\") }}\n  }\n}",
           "failOnError": false
         },
-        "id": "a5f2a690-445e-47c8-b6ee-0de13a646160",
-        "__documentation__": ""
+        "id": "a5f2a690-445e-47c8-b6ee-0de13a646160"
       },
       {
         "name": "json-generator-connector",
         "type": "connector",
         "stepName": "JSON Prepare Message",
         "params": {
-          "json": "{\n  \"message\": {{ DEFAULT( message.objerro.errorMessage, CONCAT(\"Error occurred: \", message.error) ) }},\n  \"payload\": {{ DEFAULT( message.objerro.payload, \"payload nao salvo\" ) }},\n  \"pipelinename\": {{ metadata.pipeline.name }},\n  \"status\": {{ DEFAULT( message.objerro.status, \"error\" ) }},\n  \"executionkey\": {{ metadata.execution.key }},\n  \"id\": {{ CONCAT(metadata.execution.key, \"-\", FORMATDATE(NOW(), \"timestamp\", \"timestamp\", null, \"GMT-3\")) }},\n}",
+          "json": "{\n  \"errorMessage\": {{ DEFAULT( message.objerro.errorMessage, CONCAT(\"Error occurred: \", message.error) ) }},\n  \"payload\": {{ DEFAULT( message.objerro.payload, \"payload nao salvo\" ) }},\n  \"pipelinename\": {{ metadata.pipeline.name }},\n  \"status\": {{ DEFAULT( message.objerro.status, \"error\" ) }},\n  \"executionkey\": {{ metadata.execution.key }},\n  \"id\": {{ CONCAT(metadata.execution.key, \"-\", FORMATDATE(NOW(), \"timestamp\", \"timestamp\", null, \"GMT-3\")) }}\n}",
           "failOnError": false
         },
         "id": "0eaa845b-60c1-4a48-b060-2c71379f6fda",
